@@ -12,6 +12,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+
 public class AdvisorController {
     @FXML
     private Label l4;
@@ -47,15 +50,13 @@ public class AdvisorController {
     }
 
     @FXML
-    void getCarView(ActionEvent event) throws IOException  {
+    void getAdvisorView(ActionEvent event) throws IOException  {
         Stage stage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("advisor.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 500, 300);
         stage.setTitle("Advisor");
         stage.setScene(scene);
         stage.show();
-
-
     }
     @FXML
     void close(ActionEvent event) {
@@ -90,4 +91,24 @@ public class AdvisorController {
         l4.setText("Recorded successfully!");
     }
 
+    public void update(){
+        AdviserRepository adviserRepository = new AdviserRepository();
+        Adviser c = adviserRepository.getAdvisorById(Integer.parseInt(txtfield1.getText()));
+
+        if(c.getId() == 0){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "No such record!", ButtonType.CLOSE);
+            alert.showAndWait();
+            txtfield1.setText("");
+            txtfield1.requestFocus();
+        }
+        adviserRepository.update(c);
+        showSuccessPopup();
+    }
+    private void showSuccessPopup() {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Success");
+        alert.setHeaderText(null);
+        alert.setContentText("Your submission was successful!");
+        alert.showAndWait();
+    }
 }
