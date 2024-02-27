@@ -17,7 +17,7 @@
       <Label fx:id="advisor_department" alignment="CENTER_RIGHT" layoutX="48.0" layoutY="225.0" text="DEPARTMENT" />
       <Label fx:id="advisor_name" alignment="CENTER_RIGHT" layoutX="48.0" layoutY="171.0" prefHeight="17.0" prefWidth="82.0" text="NAME" />
       <Label fx:id="advisor_id" alignment="CENTER_RIGHT" layoutX="48.0" layoutY="109.0" prefHeight="17.0" prefWidth="82.0" text="ID" />
-      <Button fx:id="adv_button_cfetch" layoutX="377.0" layoutY="104.0" mnemonicParsing="false" text="FETCH" />
+      <Button fx:id="adv_button_fetch" layoutX="377.0" layoutY="104.0" mnemonicParsing="false" text="FETCH" />
       <Button fx:id="adv_button_close" layoutX="377.0" layoutY="292.0" mnemonicParsing="false" text="CLOSE" />
       <Button fx:id="adv_button_delete" layoutX="298.0" layoutY="292.0" mnemonicParsing="false" text="DELETE" />
       <Button fx:id="adv_button_update" layoutX="199.0" layoutY="292.0" mnemonicParsing="false" text="UDPDATE" />
