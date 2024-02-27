@@ -11,8 +11,8 @@
       <Button fx:id="CLOSEBUTTON" layoutX="440.0" layoutY="302.0" mnemonicParsing="false" text="CLOSE" />
       <Button fx:id="FETCHBUTTON" layoutX="440.0" layoutY="74.0" mnemonicParsing="false" text="FETCH" />
       <Label fx:id="L1" alignment="TOP_RIGHT" layoutX="92.0" layoutY="78.0" prefHeight="20.0" prefWidth="90.0" text="ID" />
-      <Label fx:id="L2" alignment="TOP_RIGHT" layoutX="92.0" layoutY="140.0" prefHeight="20.0" prefWidth="90.0" text="NAME" />
-      <Label fx:id="L3" alignment="TOP_RIGHT" layoutX="92.0" layoutY="207.0" prefHeight="20.0" prefWidth="90.0" text="DEPARTMENT" />
+      <Label fx:id="L2" alignment="TOP_RIGHT" layoutX="92.0" layoutY="140.0" prefHeight="20.0" prefWidth="90.0" text="TITLE" />
+      <Label fx:id="L3" alignment="TOP_RIGHT" layoutX="92.0" layoutY="207.0" prefHeight="20.0" prefWidth="90.0" text="DESCRIPTION" />
       <TextField fx:id="T1" layoutX="225.0" layoutY="74.0" prefHeight="26.0" prefWidth="170.0" />
       <TextField fx:id="T2" layoutX="225.0" layoutY="136.0" prefHeight="26.0" prefWidth="213.0" />
       <TextField fx:id="T3" layoutX="225.0" layoutY="203.0" prefHeight="26.0" prefWidth="214.0" />
