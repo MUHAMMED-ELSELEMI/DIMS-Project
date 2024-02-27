@@ -1,4 +1,4 @@
-package org.example.dimsproject.Repository;
+package org.example.dimsproject.repository;
 
 import org.example.dimsproject.Model.Adviser;
 
