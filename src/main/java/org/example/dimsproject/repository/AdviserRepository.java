@@ -38,7 +38,7 @@ public class AdviserRepository {
     public void save(Adviser adviser){
         try {
             connection = DriverManager.getConnection(URL,USER,PASSWORD);
-            String query = "INSER INTO adviser VALUES("+
+            String query = "INSERT INTO advisers VALUES("+
                     adviser.getId()+",'"+
                     adviser.getName()+"','"+
                     adviser.getDepartment()+"';";
@@ -54,7 +54,7 @@ public class AdviserRepository {
         try {
             connection = DriverManager.getConnection(URL,USER,PASSWORD);
             statement = connection.createStatement();
-            String query = "UPDATE adviser SET name='"+adviser.getName()+"',department='"+adviser.getDepartment()+"' WHERE id="+adviser.getId()+";";
+            String query = "UPDATE advisers SET name='"+adviser.getName()+"',department='"+adviser.getDepartment()+"' WHERE id="+adviser.getId()+";";
             resultSet = statement.executeQuery(query);
 
         } catch (SQLException e) {
