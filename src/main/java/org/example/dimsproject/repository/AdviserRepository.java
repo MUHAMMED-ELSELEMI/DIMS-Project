@@ -1,6 +1,6 @@
-package org.example.dimsproject.repository;
+package org.example.dimsproject.Repository;
 
-import org.example.dimsproject.model.Adviser;
+import org.example.dimsproject.Model.Adviser;
 
 import java.sql.*;
 public class AdviserRepository {
