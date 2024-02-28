@@ -1,26 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.dimsproject.Model.Study">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.dimsproject.Controller.StudyController">
    <children>
-      <Button fx:id="SAVEBUTTON" layoutX="158.0" layoutY="302.0" mnemonicParsing="false" text="SAVE" />
-      <Button fx:id="UPDATEBUTTON" layoutX="236.0" layoutY="302.0" mnemonicParsing="false" text="UPDATE" />
-      <Button fx:id="CLOSEBUTTON" layoutX="440.0" layoutY="302.0" mnemonicParsing="false" text="CLOSE" />
-      <Button fx:id="FETCHBUTTON" layoutX="440.0" layoutY="74.0" mnemonicParsing="false" text="FETCH" />
+      <Button fx:id="SAVEBUTTON" layoutX="158.0" layoutY="302.0" mnemonicParsing="false" onAction="#save" text="SAVE" />
+      <Button fx:id="UPDATEBUTTON" layoutX="236.0" layoutY="302.0" mnemonicParsing="false" onAction="#update" text="UPDATE" />
+      <Button fx:id="CLOSEBUTTON" layoutX="440.0" layoutY="302.0" mnemonicParsing="false" onAction="#close" text="CLOSE" />
+      <Button fx:id="FETCHBUTTON" layoutX="440.0" layoutY="74.0" mnemonicParsing="false" onAction="#fetch" text="FETCH" />
       <Label fx:id="L1" alignment="TOP_RIGHT" layoutX="92.0" layoutY="78.0" prefHeight="20.0" prefWidth="90.0" text="ID" />
       <Label fx:id="L2" alignment="TOP_RIGHT" layoutX="92.0" layoutY="140.0" prefHeight="20.0" prefWidth="90.0" text="TITLE" />
       <Label fx:id="L3" alignment="TOP_RIGHT" layoutX="92.0" layoutY="207.0" prefHeight="20.0" prefWidth="90.0" text="DESCRIPTION" />
       <TextField fx:id="T1" layoutX="225.0" layoutY="74.0" prefHeight="26.0" prefWidth="170.0" />
       <TextField fx:id="T2" layoutX="225.0" layoutY="136.0" prefHeight="26.0" prefWidth="213.0" />
       <TextField fx:id="T3" layoutX="225.0" layoutY="203.0" prefHeight="26.0" prefWidth="214.0" />
-      <Label layoutX="266.0" layoutY="14.0" prefHeight="36.0" prefWidth="67.0" text="study">
+      <Label layoutX="266.0" layoutY="14.0" prefHeight="36.0" prefWidth="67.0" text="Study">
          <font>
             <Font size="25.0" />
          </font>
       </Label>
-      <Button fx:id="DELETEBUTTON" layoutX="347.0" layoutY="302.0" mnemonicParsing="false" text="DELETE" />
+      <Button fx:id="DELETEBUTTON" layoutX="347.0" layoutY="302.0" mnemonicParsing="false" onAction="#delete" text="DELETE" />
    </children>
 </AnchorPane>
