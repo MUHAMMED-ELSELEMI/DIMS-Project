@@ -7,7 +7,7 @@ public class AdviserRepository {
     //JDBC
     private final String URL = "jdbc://mysql:/localhost:3306/dimsproject";
     private final String USER = "root";
-    private final String PASSWORD = "12345";
+    private final String PASSWORD = "123456";
     private Connection connection =null;
     private Statement statement =null;
     private ResultSet resultSet =null;
