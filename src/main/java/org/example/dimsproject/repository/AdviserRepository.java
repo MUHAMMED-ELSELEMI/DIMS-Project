@@ -1,11 +1,11 @@
 package org.example.dimsproject.repository;
 
-import org.example.dimsproject.Model.Adviser;
+import org.example.dimsproject.model.Adviser;
 
 import java.sql.*;
 public class AdviserRepository {
     //JDBC
-    private final String URL = "jdbc://mysql:/localhost:3306/dimsproject";
+    private final String URL = "jdbc:mysql://localhost:3306/dimsproject";
     private final String USER = "root";
     private final String PASSWORD = "123456";
     private Connection connection =null;
@@ -44,6 +44,7 @@ public class AdviserRepository {
                     adviser.getDepartment()+"';";
             statement = connection.createStatement();
             resultSet = statement.executeQuery(query);
+            connection.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -56,7 +57,21 @@ public class AdviserRepository {
             statement = connection.createStatement();
             String query = "UPDATE advisers SET name='"+adviser.getName()+"',department='"+adviser.getDepartment()+"' WHERE id="+adviser.getId()+";";
             resultSet = statement.executeQuery(query);
+            connection.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
+    }
+
+    //Delete data from database
+    public void deleteById(int id){
+        try {
+            connection = DriverManager.getConnection(URL,USER,PASSWORD);
+            statement = connection.createStatement();
+            String query = "DELETE FROM advisers WHERE id="+id+";";
+            resultSet = statement.executeQuery(query);
+            connection.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

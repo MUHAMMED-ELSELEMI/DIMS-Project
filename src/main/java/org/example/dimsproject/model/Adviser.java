@@ -1,4 +1,4 @@
-package org.example.dimsproject.Model;
+package org.example.dimsproject.model;
 
 public class Adviser {
 
