@@ -1,18 +1,20 @@
 package org.example.dimsproject.repository;
 
 import org.example.dimsproject.model.Study;
+import org.example.dimsproject.utils.DbProperties;
 
 import java.sql.*;
 
 public class StudyRepository {
 
-    // JDBC parameters
-    private final String URL = "jdbc:mysql://127.0.0.1:3306/dimsproject";
-    private final String USER = "root";
-    private final String PASSWORD = "123456";
-    private Connection connection = null;
-    private Statement statement = null;
-    private ResultSet resultSet = null;
+    private final DbProperties dbProperties;
+
+    public StudyRepository() {
+        this.dbProperties = new DbProperties();
+    }
+    private Connection connection =null;
+    private Statement statement =null;
+    private ResultSet resultSet =null;
 
     /**
      * FETCH button
@@ -21,7 +23,7 @@ public class StudyRepository {
      * @throws SQLException
      */
     public Study getStudyById(int studyId) throws SQLException {
-        connection = DriverManager.getConnection(URL,USER,PASSWORD);
+        connection = DriverManager.getConnection(dbProperties.getURL(),dbProperties.getUSER(), dbProperties.getPASSWORD());
         String query = "SELECT * FROM studies WHERE id =" + studyId +";";
         statement =connection.createStatement();
         resultSet = statement.executeQuery(query);
@@ -43,7 +45,7 @@ public class StudyRepository {
      * @throws SQLException
      */
     public void saveNewStudy(Study study) throws SQLException {
-        connection = DriverManager.getConnection(URL,USER,PASSWORD);
+        connection = DriverManager.getConnection(dbProperties.getURL(),dbProperties.getUSER(), dbProperties.getPASSWORD());
         statement = connection.createStatement();
         String query = "INSERT INTO studies VALUES (" + study.getId() +",'" + study.getTitle() + "','" + study.getDescription() +"');";
         statement.executeUpdate(query);
@@ -55,7 +57,7 @@ public class StudyRepository {
      * @throws SQLException
      */
     public void updateStudy(Study study) throws SQLException {
-        connection = DriverManager.getConnection(URL, USER, PASSWORD);
+        connection = DriverManager.getConnection(dbProperties.getURL(),dbProperties.getUSER(), dbProperties.getPASSWORD());
         statement = connection.createStatement();
 
         String title = study.getTitle().replaceAll("'", "''");
@@ -64,6 +66,23 @@ public class StudyRepository {
         String query = "UPDATE studies SET title='" + title + "', description='" + description + "' WHERE id=" + study.getId() + ";";
 
         statement.executeUpdate(query);
+    }
+
+    /**
+     *  DELETE
+     * @param id
+     */
+    public void deleteById(int id){
+        try {
+            connection = DriverManager.getConnection(dbProperties.getURL(),dbProperties.getUSER(), dbProperties.getPASSWORD());
+            statement = connection.createStatement();
+            String query = "DELETE FROM studies WHERE id="+id+";";
+            statement.executeUpdate(query);
+            connection.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
 

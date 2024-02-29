@@ -9,6 +9,12 @@ import org.example.dimsproject.repository.StudyRepository;
 
 public class StudyController {
 
+    private final StudyRepository studyRepository;
+
+    public StudyController(){
+        this.studyRepository = new StudyRepository();
+    }
+
     @FXML
     private Button SAVEBUTTON;
     @FXML
