@@ -5,7 +5,7 @@ import org.example.dimsproject.model.Adviser;
 import java.sql.*;
 public class AdviserRepository {
     //JDBC
-    private final String URL = "jdbc://mysql:/localhost:3306/dimsproject";
+    private final String URL = "jdbc:mysql://localhost:3306/dimsproject";
     private final String USER = "root";
     private final String PASSWORD = "123456";
     private Connection connection =null;
