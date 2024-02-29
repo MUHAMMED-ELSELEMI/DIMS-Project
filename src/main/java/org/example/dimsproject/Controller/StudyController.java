@@ -2,29 +2,36 @@ package org.example.dimsproject.controller;
 
 import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import org.example.dimsproject.HelloApplication;
 import org.example.dimsproject.model.Study;
 import org.example.dimsproject.repository.StudyRepository;
 
+import java.io.IOException;
+
 public class StudyController {
 
-    private final StudyRepository studyRepository;
-
     public StudyController(){
-        this.studyRepository = new StudyRepository();
+        StudyRepository studyRepository = new StudyRepository();
     }
 
     @FXML
-    private Button SAVEBUTTON;
+    private Button savebtn;
     @FXML
-    private Button UPDATEBUTTON;
+    private Button updatebtn;
     @FXML
-    private Button DELETEBUTTON;
+    private Button deletebtn;
     @FXML
-    private Button CLOSEBUTTON;
+    private Button clearbtn;
     @FXML
-    private Button FETCHBUTTON;
+    private Button advisorpage;
+    @FXML
+    private Button closebtn;
+    @FXML
+    private Button fetchbtn;
     @FXML
     private TextField T1;
     @FXML
@@ -34,15 +41,31 @@ public class StudyController {
 
     @FXML
     void close(ActionEvent event) {
-        Stage stage = (Stage) SAVEBUTTON.getScene().getWindow();
+        Stage stage = (Stage) savebtn.getScene().getWindow();
         stage.close();
         }
     @FXML
-    void delete(ActionEvent event){
+    void clear(ActionEvent event){
         T1.clear();
         T2.clear();
         T3.clear();
 
+    }
+    @FXML
+    void delete(ActionEvent event)
+    {
+        StudyRepository studyRepository = new StudyRepository();
+        studyRepository.deleteById(Integer.parseInt(T1.getText()));
+    }
+
+    @FXML
+    void getAdvisorView(ActionEvent event) throws IOException {
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("advisor.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 550, 400);
+        stage.setTitle("Advisor");
+        stage.setScene(scene);
+        stage.show();
     }
     @FXML
     void fetch(ActionEvent event) throws Exception {
