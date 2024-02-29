@@ -57,14 +57,15 @@ public class AdvisorController {
     }
 
     @FXML
-    void getAdvisorView(ActionEvent event) throws IOException  {
+    void getStudyView(ActionEvent event) throws IOException  {
         Stage stage = new Stage();
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("advisor.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 500, 300);
-        stage.setTitle("Advisor");
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("study.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 550,400);
+        stage.setTitle("Study");
         stage.setScene(scene);
         stage.show();
     }
+
     @FXML
     void close(ActionEvent event) {
         //Platform.exit();
