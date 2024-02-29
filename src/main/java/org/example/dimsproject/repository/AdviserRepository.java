@@ -4,6 +4,8 @@ import org.example.dimsproject.model.Adviser;
 import org.example.dimsproject.utils.DbProperties;
 
 import java.sql.*;
+import java.util.Optional;
+
 public class AdviserRepository {
 
     private final DbProperties dbProperties;
@@ -17,20 +19,21 @@ public class AdviserRepository {
 
     //FETCH - SAVE - UPDATE
     // Fetch data from database.
-    public Adviser getAdvisorById(int id){
+    public Optional<Adviser> getAdvisorById(int id){
         try {
             connection = DriverManager.getConnection(dbProperties.getURL(),dbProperties.getUSER(), dbProperties.getPASSWORD());
             statement = connection.createStatement();
             String query = "SELECT * FROM advisers WHERE id="+id;
             resultSet = statement.executeQuery(query);
-            Adviser adviser = new Adviser();
+            Adviser adviser = null;
             while(resultSet.next()){
+                adviser = new Adviser();
                 adviser.setId(resultSet.getInt(1));
                 adviser.setName(resultSet.getString(2));
                 adviser.setDepartment(resultSet.getString(3));
             }
             connection.close();
-            return adviser;
+            return Optional.ofNullable(adviser);
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
