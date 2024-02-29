@@ -44,6 +44,7 @@ public class AdviserRepository {
                     adviser.getDepartment()+"';";
             statement = connection.createStatement();
             resultSet = statement.executeQuery(query);
+            connection.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -56,7 +57,7 @@ public class AdviserRepository {
             statement = connection.createStatement();
             String query = "UPDATE advisers SET name='"+adviser.getName()+"',department='"+adviser.getDepartment()+"' WHERE id="+adviser.getId()+";";
             resultSet = statement.executeQuery(query);
-
+            connection.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
