@@ -7,7 +7,7 @@ import java.sql.*;
 public class StudyRepository {
 
     // JDBC parameters
-    private final String URL = "jdbc:mysql://localhost:3306/dimsproject";
+    private final String URL = "jdbc:mysql://127.0.0.1:3306/dimsproject";
     private final String USER = "root";
     private final String PASSWORD = "123456";
     private Connection connection = null;
@@ -22,7 +22,7 @@ public class StudyRepository {
      */
     public Study getStudyById(int studyId) throws SQLException {
         connection = DriverManager.getConnection(URL,USER,PASSWORD);
-        String query = "SELCET * FROM studies WHERE id = " + studyId + ";";
+        String query = "SELECT * FROM studies WHERE id =" + studyId +";";
         statement =connection.createStatement();
         resultSet = statement.executeQuery(query);
         Study study = new Study();
@@ -45,11 +45,8 @@ public class StudyRepository {
     public void saveNewStudy(Study study) throws SQLException {
         connection = DriverManager.getConnection(URL,USER,PASSWORD);
         statement = connection.createStatement();
-        String query = "INSERT INTO studies VALUES("+
-                       study.getId()+",'"+
-                       study.getTitle()+"','"+
-                       study.getDescription()+"';";
-        resultSet = statement.executeQuery(query);
+        String query = "INSERT INTO studies VALUES (" + study.getId() +",'" + study.getTitle() + "','" + study.getDescription() +"');";
+        statement.executeUpdate(query);
     }
 
     /**
@@ -58,13 +55,18 @@ public class StudyRepository {
      * @throws SQLException
      */
     public void updateStudy(Study study) throws SQLException {
-        connection = DriverManager.getConnection(URL,USER,PASSWORD);
+        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement preparedStatement = connection.prepareStatement(
+                     "UPDATE studies SET title=?, description=? WHERE id=?")) {
 
-        statement = connection.createStatement();
+            preparedStatement.setString(1, study.getTitle());
+            preparedStatement.setString(2, study.getDescription());
+            preparedStatement.setInt(3, study.getId());
 
-        String query = "UPDATE studies SET title='" + study.getTitle()+ "',description='"+study.getDescription()+"' WHERE id="+study.getId()+";";
-        resultSet = statement.executeQuery(query);
+            preparedStatement.executeUpdate();
+        }
     }
+
 
 
 }
