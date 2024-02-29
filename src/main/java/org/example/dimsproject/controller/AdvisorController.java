@@ -12,6 +12,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+
 public class AdvisorController {
     @FXML
     private Label l4;
@@ -47,21 +50,26 @@ public class AdvisorController {
     }
 
     @FXML
-    void getCarView(ActionEvent event) throws IOException  {
+    void getAdvisorView(ActionEvent event) throws IOException  {
         Stage stage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("advisor.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 500, 300);
         stage.setTitle("Advisor");
         stage.setScene(scene);
         stage.show();
-
-
     }
     @FXML
     void close(ActionEvent event) {
         //Platform.exit();
         Stage stage = (Stage) adv_button_close.getScene().getWindow();
         stage.close();
+    }
+
+    @FXML
+    void clear(ActionEvent event){
+        txtfield1.setText("");
+        txtfield2.setText("");
+        txtfield3.setText("");
     }
 
     @FXML
@@ -87,7 +95,32 @@ public class AdvisorController {
         c.setName(txtfield2.getText());
         c.setDepartment(txtfield3.getText());
         adviserRepository.save(c);
-        l4.setText("Recorded successfully!");
+        showSuccessPopup();
     }
 
+    @FXML
+    public void update(ActionEvent event){
+        AdviserRepository adviserRepository = new AdviserRepository();
+        Adviser adviser = new Adviser();
+        adviser.setId(Integer.parseInt(txtfield1.getText()));
+        adviser.setName(txtfield2.getText());
+        adviser.setDepartment(txtfield3.getText());
+        adviserRepository.update(adviser);
+        showSuccessPopup();
+    }
+
+    @FXML
+    public void delete(ActionEvent event){
+         AdviserRepository adviserRepository = new AdviserRepository();
+         adviserRepository.deleteById(Integer.parseInt(txtfield1.getText()));
+         showSuccessPopup();
+    }
+
+    private void showSuccessPopup() {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Success");
+        alert.setHeaderText(null);
+        alert.setContentText("Your submission was successful!");
+        alert.showAndWait();
+    }
 }

@@ -5,9 +5,11 @@ import org.example.dimsproject.model.Adviser;
 import java.sql.*;
 public class AdviserRepository {
     //JDBC
-    private final String URL = "jdbc:mysql://localhost:3306/dimsproject";
+    private final String URL = "jdbc:mysql://localhost:3306/project";
+    //" datadir: /usr/local/mysql/data/";
+
     private final String USER = "root";
-    private final String PASSWORD = "123456";
+    private final String PASSWORD = "kendimiseviyorum";
     private Connection connection =null;
     private Statement statement =null;
     private ResultSet resultSet =null;
@@ -38,12 +40,9 @@ public class AdviserRepository {
     public void save(Adviser adviser){
         try {
             connection = DriverManager.getConnection(URL,USER,PASSWORD);
-            String query = "INSERT INTO advisers VALUES("+
-                    adviser.getId()+",'"+
-                    adviser.getName()+"','"+
-                    adviser.getDepartment()+"';";
+            String query = "INSERT INTO advisers VALUES (" + adviser.getId() +",'" + adviser.getName() + "','" + adviser.getDepartment() +"');";
             statement = connection.createStatement();
-            resultSet = statement.executeQuery(query);
+            statement.executeUpdate(query);
             connection.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -56,8 +55,8 @@ public class AdviserRepository {
             connection = DriverManager.getConnection(URL,USER,PASSWORD);
             statement = connection.createStatement();
             String query = "UPDATE advisers SET name='"+adviser.getName()+"',department='"+adviser.getDepartment()+"' WHERE id="+adviser.getId()+";";
-            resultSet = statement.executeQuery(query);
-            connection.close();
+            statement.executeUpdate(query);
+            //connection.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -70,7 +69,7 @@ public class AdviserRepository {
             connection = DriverManager.getConnection(URL,USER,PASSWORD);
             statement = connection.createStatement();
             String query = "DELETE FROM advisers WHERE id="+id+";";
-            resultSet = statement.executeQuery(query);
+            statement.executeUpdate(query);
             connection.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
