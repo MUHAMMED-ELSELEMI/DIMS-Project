@@ -66,6 +66,23 @@ public class StudyRepository {
         statement.executeUpdate(query);
     }
 
+    /**
+     *  DELETE
+     * @param id
+     */
+    public void deleteById(int id){
+        try {
+            connection = DriverManager.getConnection(URL,USER,PASSWORD);
+            statement = connection.createStatement();
+            String query = "DELETE FROM studies WHERE id="+id+";";
+            statement.executeUpdate(query);
+            connection.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
 
 
 
