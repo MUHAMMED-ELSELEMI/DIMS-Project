@@ -1,5 +1,6 @@
 package org.example.dimsproject.controller;
 
+import javafx.stage.Window;
 import org.example.dimsproject.HelloApplication;
 import org.example.dimsproject.model.Adviser;
 import org.example.dimsproject.repository.*;
@@ -29,7 +30,7 @@ public class AdvisorController {
     private TextField txtfield3;
 
     @FXML
-    private Button adv_button_close;
+    private Button adv_button_save;
     private final AdviserRepository adviserRepository;
 
     public AdvisorController() {
@@ -45,6 +46,13 @@ public class AdvisorController {
 
     @FXML
     void getStudyView(ActionEvent event) throws IOException  {
+        Stage existingStage = getExistingStudyStage();
+
+        if (existingStage != null) {
+            existingStage.show();
+            existingStage.toFront();
+            return;
+        }
         Stage stage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("study.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 550,400);
@@ -52,11 +60,23 @@ public class AdvisorController {
         stage.setScene(scene);
         stage.show();
     }
+    @FXML
+    private Stage getExistingStudyStage() {
+        for (Window window : Window.getWindows()) {
+            if (window instanceof Stage) {
+                Stage stage = (Stage) window;
+                if ("Study".equals(stage.getTitle())) {
+                    return stage;
+                }
+            }
+        }
+        return null;
+    }
 
     @FXML
     void close(ActionEvent event) {
         //Platform.exit();
-        Stage stage = (Stage) adv_button_close.getScene().getWindow();
+        Stage stage = (Stage) adv_button_save.getScene().getWindow();
         stage.close();
     }
 

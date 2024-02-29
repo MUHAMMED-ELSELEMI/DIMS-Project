@@ -21,10 +21,10 @@
       <Button fx:id="adv_button_delete" layoutX="246.0" layoutY="292.0" mnemonicParsing="false" onAction="#delete" text="DELETE" />
       <Button fx:id="adv_button_update" layoutX="151.0" layoutY="292.0" mnemonicParsing="false" onAction="#update" text="UPDATE" />
       <Button fx:id="adv_button_save" layoutX="71.0" layoutY="292.0" mnemonicParsing="false" onAction="#save" text="SAVE" />
-      <TextField fx:id="txtfield1" layoutX="164.0" layoutY="104.0" />
-      <TextField fx:id="txtfield2" layoutX="164.0" layoutY="166.0" />
-      <TextField fx:id="txtfield3" layoutX="164.0" layoutY="220.0" />
-      <Button fx:id="adv_button_cllear" layoutX="338.0" layoutY="292.0" mnemonicParsing="false" onAction="#clean" text="CLEAR" />
-      <Button fx:id="adv_button_studypage" layoutX="461.0" layoutY="292.0" mnemonicParsing="false" onAction="#getStudyView"  text="Study Page" />
+      <TextField fx:id="txtfield1" layoutX="164.0" layoutY="104.0" prefHeight="25.0" prefWidth="149.0" />
+      <TextField fx:id="txtfield2" layoutX="164.0" layoutY="166.0" prefHeight="25.0" prefWidth="149.0" />
+      <TextField fx:id="txtfield3" layoutX="164.0" layoutY="220.0" prefHeight="25.0" prefWidth="149.0" />
+      <Button fx:id="adv_button_clear" layoutX="338.0" layoutY="292.0" mnemonicParsing="false" onAction="#clean" text="CLEAR" />
+      <Button fx:id="adv_button_studypage" layoutX="461.0" layoutY="292.0" mnemonicParsing="false" onAction="#getStudyView" text="Study Page" AnchorPane.rightAnchor="63.0" />
    </children>
 </AnchorPane>
