@@ -6,8 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.dimsproject.controller.AdvisorController">
    <children>
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="246.0" layoutY="42.0" prefHeight="23.0" prefWidth="104.0" text="ADVISOR">
          <font>
@@ -17,13 +16,14 @@
       <Label fx:id="advisor_department" alignment="CENTER_RIGHT" layoutX="48.0" layoutY="225.0" text="DEPARTMENT" />
       <Label fx:id="advisor_name" alignment="CENTER_RIGHT" layoutX="48.0" layoutY="171.0" prefHeight="17.0" prefWidth="82.0" text="NAME" />
       <Label fx:id="advisor_id" alignment="CENTER_RIGHT" layoutX="48.0" layoutY="109.0" prefHeight="17.0" prefWidth="82.0" text="ID" />
-      <Button fx:id="adv_button_fetch" layoutX="377.0" layoutY="104.0" mnemonicParsing="false" text="FETCH" />
-      <Button fx:id="adv_button_close" layoutX="377.0" layoutY="292.0" mnemonicParsing="false" text="CLOSE" />
-      <Button fx:id="adv_button_delete" layoutX="298.0" layoutY="292.0" mnemonicParsing="false" text="DELETE" />
-      <Button fx:id="adv_button_update" layoutX="199.0" layoutY="292.0" mnemonicParsing="false" text="UDPDATE" />
-      <Button fx:id="adv_button_save" layoutX="125.0" layoutY="292.0" mnemonicParsing="false" text="SAVE" />
+      <Button fx:id="adv_button_fetch" layoutX="377.0" layoutY="104.0" mnemonicParsing="false" onAction="#fetch" text="FETCH" />
+      <Button fx:id="adv_button_close" layoutX="464.0" layoutY="292.0" mnemonicParsing="false" onAction="#close" text="CLOSE" />
+      <Button fx:id="adv_button_delete" layoutX="298.0" layoutY="292.0" mnemonicParsing="false" onAction="#delete" text="DELETE" />
+      <Button fx:id="adv_button_update" layoutX="199.0" layoutY="292.0" mnemonicParsing="false" onAction="#update" text="UPDATE" />
+      <Button fx:id="adv_button_save" layoutX="125.0" layoutY="292.0" mnemonicParsing="false" onAction="#save" text="SAVE" />
       <TextField fx:id="txtfield1" layoutX="164.0" layoutY="104.0" />
       <TextField fx:id="txtfield2" layoutX="164.0" layoutY="166.0" />
       <TextField fx:id="txtfield3" layoutX="164.0" layoutY="220.0" />
+      <Button fx:id="adv_button_cllear" layoutX="386.0" layoutY="292.0" mnemonicParsing="false" onAction="#clean" text="CLEAR" />
    </children>
 </AnchorPane>

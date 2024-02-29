@@ -66,6 +66,13 @@ public class AdvisorController {
     }
 
     @FXML
+    void clear(ActionEvent event){
+        txtfield1.setText("");
+        txtfield2.setText("");
+        txtfield3.setText("");
+    }
+
+    @FXML
     void fetch(ActionEvent event) throws Exception {
         AdviserRepository advisorRepository = new AdviserRepository();
         Adviser c = advisorRepository.getAdvisorById(Integer.parseInt(txtfield1.getText()));
@@ -88,22 +95,27 @@ public class AdvisorController {
         c.setName(txtfield2.getText());
         c.setDepartment(txtfield3.getText());
         adviserRepository.save(c);
-        l4.setText("Recorded successfully!");
-    }
-
-    public void update(){
-        AdviserRepository adviserRepository = new AdviserRepository();
-        Adviser c = adviserRepository.getAdvisorById(Integer.parseInt(txtfield1.getText()));
-
-        if(c.getId() == 0){
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, "No such record!", ButtonType.CLOSE);
-            alert.showAndWait();
-            txtfield1.setText("");
-            txtfield1.requestFocus();
-        }
-        adviserRepository.update(c);
         showSuccessPopup();
     }
+
+    @FXML
+    public void update(ActionEvent event){
+        AdviserRepository adviserRepository = new AdviserRepository();
+        Adviser adviser = new Adviser();
+        adviser.setId(Integer.parseInt(txtfield1.getText()));
+        adviser.setName(txtfield2.getText());
+        adviser.setDepartment(txtfield3.getText());
+        adviserRepository.update(adviser);
+        showSuccessPopup();
+    }
+
+    @FXML
+    public void delete(ActionEvent event){
+         AdviserRepository adviserRepository = new AdviserRepository();
+         adviserRepository.deleteById(Integer.parseInt(txtfield1.getText()));
+         showSuccessPopup();
+    }
+
     private void showSuccessPopup() {
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Success");
