@@ -3,33 +3,34 @@ package org.example.dimsproject.repository;
 import org.example.dimsproject.model.Adviser;
 
 import java.sql.*;
+import java.util.Optional;
+
 public class AdviserRepository {
     //JDBC
-    private final String URL = "jdbc:mysql://localhost:3306/project";
-    //" datadir: /usr/local/mysql/data/";
-
+    private final String URL = "jdbc:mysql://localhost:3306/dimsproject";
     private final String USER = "root";
-    private final String PASSWORD = "kendimiseviyorum";
+    private final String PASSWORD = "12345";
     private Connection connection =null;
     private Statement statement =null;
     private ResultSet resultSet =null;
 
     //FETCH - SAVE - UPDATE
     // Fetch data from database.
-    public Adviser getAdvisorById(int id){
+    public Optional<Adviser> getAdvisorById(int id){
         try {
             connection = DriverManager.getConnection(URL,USER,PASSWORD);
             statement = connection.createStatement();
             String query = "SELECT * FROM advisers WHERE id="+id;
             resultSet = statement.executeQuery(query);
-            Adviser adviser = new Adviser();
+            Adviser adviser = null;
             while(resultSet.next()){
+                adviser = new Adviser();
                 adviser.setId(resultSet.getInt(1));
                 adviser.setName(resultSet.getString(2));
                 adviser.setDepartment(resultSet.getString(3));
             }
             connection.close();
-            return adviser;
+            return Optional.ofNullable(adviser);
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
