@@ -62,4 +62,18 @@ public class AdviserRepository {
         }
 
     }
+
+    //Delete data from database
+    public void deleteById(int id){
+        try {
+            connection = DriverManager.getConnection(URL,USER,PASSWORD);
+            statement = connection.createStatement();
+            String query = "DELETE FROM advisers WHERE id="+id+";";
+            resultSet = statement.executeQuery(query);
+            connection.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
 }
