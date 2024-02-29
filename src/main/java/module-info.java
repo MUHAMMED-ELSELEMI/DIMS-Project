@@ -6,4 +6,6 @@ module org.example.dimsproject {
 
     opens org.example.dimsproject to javafx.fxml;
     exports org.example.dimsproject;
+    exports org.example.dimsproject.controller;
+    opens org.example.dimsproject.controller to javafx.fxml;
 }

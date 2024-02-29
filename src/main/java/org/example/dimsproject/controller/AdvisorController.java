@@ -1,7 +1,7 @@
 package org.example.dimsproject.controller;
 
 import org.example.dimsproject.HelloApplication;
-import org.example.dimsproject.Model.Adviser;
+import org.example.dimsproject.model.Adviser;
 import org.example.dimsproject.repository.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
