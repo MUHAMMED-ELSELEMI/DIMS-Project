@@ -55,17 +55,17 @@ public class StudyRepository {
      * @throws SQLException
      */
     public void updateStudy(Study study) throws SQLException {
-        try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-             PreparedStatement preparedStatement = connection.prepareStatement(
-                     "UPDATE studies SET title=?, description=? WHERE id=?")) {
+        connection = DriverManager.getConnection(URL, USER, PASSWORD);
+        statement = connection.createStatement();
 
-            preparedStatement.setString(1, study.getTitle());
-            preparedStatement.setString(2, study.getDescription());
-            preparedStatement.setInt(3, study.getId());
+        String title = study.getTitle().replaceAll("'", "''");
+        String description = study.getDescription().replaceAll("'", "''");
 
-            preparedStatement.executeUpdate();
-        }
+        String query = "UPDATE studies SET title='" + title + "', description='" + description + "' WHERE id=" + study.getId() + ";";
+
+        statement.executeUpdate(query);
     }
+
 
 
 
