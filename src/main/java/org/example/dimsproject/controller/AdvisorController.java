@@ -11,16 +11,13 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import org.example.dimsproject.utils.PopUp;
 
 public class AdvisorController {
-
-    private final AdviserRepository adviserRepository;
-
-    @FXML
-    private Label l4;
 
     @FXML
     private TextField txtfield1;
@@ -32,18 +29,8 @@ public class AdvisorController {
     private TextField txtfield3;
 
     @FXML
-    private Button adv_button_fetch;
-
-    @FXML
     private Button adv_button_close;
-
-    @FXML
-    private Button adv_button_delete;
-    @FXML
-    private Button adv_button_update;
-
-    @FXML
-    private Button adv_button_save;
+    private final AdviserRepository adviserRepository;
 
     public AdvisorController() {
         this.adviserRepository = new AdviserRepository();
@@ -57,14 +44,15 @@ public class AdvisorController {
     }
 
     @FXML
-    void getAdvisorView(ActionEvent event) throws IOException  {
+    void getStudyView(ActionEvent event) throws IOException  {
         Stage stage = new Stage();
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("advisor.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 500, 300);
-        stage.setTitle("Advisor");
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("study.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 550,400);
+        stage.setTitle("Study");
         stage.setScene(scene);
         stage.show();
     }
+
     @FXML
     void close(ActionEvent event) {
         //Platform.exit();
@@ -73,61 +61,59 @@ public class AdvisorController {
     }
 
     @FXML
-    void clear(ActionEvent event){
-        txtfield1.setText("");
-        txtfield2.setText("");
-        txtfield3.setText("");
-    }
-
-    @FXML
     void fetch(ActionEvent event) throws Exception {
-        AdviserRepository advisorRepository = new AdviserRepository();
-        Adviser c = advisorRepository.getAdvisorById(Integer.parseInt(txtfield1.getText()));
-        // System.out.println(c.toString());
-        if(c.getId() == 0){
+        if (txtfield1.getText().isBlank()){
+            PopUp.showPopup("Fields!","All fields mandatory!",AlertType.ERROR);
+            return;
+        }
+        Optional<Adviser> c = adviserRepository.getAdvisorById(Integer.parseInt(txtfield1.getText()));
+        if(c.isEmpty()){
             Alert alert = new Alert(Alert.AlertType.INFORMATION, "No such record!", ButtonType.CLOSE);
             alert.showAndWait();
             txtfield1.setText("");
             txtfield1.requestFocus();
+        }else {
+            txtfield2.setText(c.get().getName());
+            txtfield3.setText(c.get().getDepartment());
         }
-        txtfield2.setText(c.getName());
-        txtfield3.setText(c.getDepartment());
     }
 
     @FXML
     void save(ActionEvent event) throws Exception {
-        AdviserRepository adviserRepository = new AdviserRepository();
-        Adviser c = new Adviser();
-        c.setId(Integer.parseInt(txtfield1.getText()));
-        c.setName(txtfield2.getText());
-        c.setDepartment(txtfield3.getText());
-        adviserRepository.save(c);
-        showSuccessPopup();
+        Adviser adviser = getAdviser();
+        if (adviser == null) return;
+        adviserRepository.save(adviser);
+        PopUp.showPopup("Success!","Advisor is created! :"+adviser.getId(),AlertType.INFORMATION);
     }
 
     @FXML
     public void update(ActionEvent event){
-        AdviserRepository adviserRepository = new AdviserRepository();
-        Adviser adviser = new Adviser();
-        adviser.setId(Integer.parseInt(txtfield1.getText()));
-        adviser.setName(txtfield2.getText());
-        adviser.setDepartment(txtfield3.getText());
+        Adviser adviser = getAdviser();
+        if (adviser == null) return;
         adviserRepository.update(adviser);
-        showSuccessPopup();
+        PopUp.showPopup("Success!","Advisor is updated successfully! :"+adviser.getId(),AlertType.INFORMATION);
     }
 
     @FXML
     public void delete(ActionEvent event){
-         AdviserRepository adviserRepository = new AdviserRepository();
+        if(txtfield1.getText().isBlank()){
+            PopUp.showPopup("Warning!","Id is mandatory!",AlertType.ERROR);
+            return;
+        }
          adviserRepository.deleteById(Integer.parseInt(txtfield1.getText()));
-         showSuccessPopup();
+         PopUp.showPopup("Success!","Adviser is deleted successfully!: "+txtfield1.getText(),AlertType.WARNING);
+    }
+    private Adviser getAdviser() {
+        Adviser adviser;
+        if(txtfield1.getText().isBlank() || txtfield2.getText().isBlank() || txtfield3.getText().isBlank()){
+            PopUp.showPopup("Fields!","All fields mandatory!",AlertType.WARNING);
+            return null;
+        }
+        adviser = new Adviser();
+        adviser.setId(Integer.parseInt(txtfield1.getText()));
+        adviser.setName(txtfield2.getText());
+        adviser.setDepartment(txtfield3.getText());
+        return adviser;
     }
 
-    private void showSuccessPopup() {
-        Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("Success");
-        alert.setHeaderText(null);
-        alert.setContentText("Your submission was successful!");
-        alert.showAndWait();
-    }
 }
