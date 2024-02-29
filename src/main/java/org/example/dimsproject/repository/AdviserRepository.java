@@ -6,10 +6,14 @@ import org.example.dimsproject.utils.DbProperties;
 import java.sql.*;
 public class AdviserRepository {
 
-    private final DbProperties dbProperties = new DbProperties();
+    private final DbProperties dbProperties;
     private Connection connection =null;
     private Statement statement =null;
     private ResultSet resultSet =null;
+
+    public AdviserRepository() {
+        this.dbProperties = new DbProperties();
+    }
 
     //FETCH - SAVE - UPDATE
     // Fetch data from database.

@@ -16,6 +16,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
 public class AdvisorController {
+
+    private final AdviserRepository adviserRepository;
+
     @FXML
     private Label l4;
 
@@ -41,6 +44,10 @@ public class AdvisorController {
 
     @FXML
     private Button adv_button_save;
+
+    public AdvisorController() {
+        this.adviserRepository = new AdviserRepository();
+    }
 
     @FXML
     void clean(ActionEvent event) {

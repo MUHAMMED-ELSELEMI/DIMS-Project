@@ -7,7 +7,11 @@ import java.sql.*;
 
 public class StudyRepository {
 
-    private final DbProperties dbProperties = new DbProperties();
+    private final DbProperties dbProperties;
+
+    public StudyRepository() {
+        this.dbProperties = new DbProperties();
+    }
     private Connection connection =null;
     private Statement statement =null;
     private ResultSet resultSet =null;
