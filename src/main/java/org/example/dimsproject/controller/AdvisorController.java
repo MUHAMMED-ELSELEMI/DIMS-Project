@@ -15,7 +15,10 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+
+import java.sql.SQLException;
 import java.math.BigDecimal;
+
 import java.util.Optional;
 
 import javafx.scene.control.Alert;
@@ -87,7 +90,6 @@ public class AdvisorController {
         Optional<ButtonType> result = alert.showAndWait();
         if(result.isPresent() && result.get() == ButtonType.OK){
             Platform.exit();
-        }else {
         }
     }
 
@@ -95,6 +97,10 @@ public class AdvisorController {
     void fetch(ActionEvent event) throws Exception {
         if (txtfield1.getText().isBlank()){
             PopUp.showPopup("Fields!","All fields mandatory!",AlertType.ERROR);
+            return;
+        }
+        if (!txtfield1.getText().matches("^[0-9]*$")){
+            PopUp.showPopup("Id!","Id must be integer number!",AlertType.ERROR);
             return;
         }
         Optional<Adviser> c = adviserRepository.getAdvisorById(Integer.parseInt(txtfield1.getText()));
@@ -122,6 +128,10 @@ public class AdvisorController {
     public void update(ActionEvent event){
         Adviser adviser = getAdviser();
         if (adviser == null) return;
+        if (adviserRepository.getAdvisorById(adviser.getId()).isEmpty()){
+            PopUp.showPopup("Error!","Advisor not found! :"+adviser.getId(),AlertType.ERROR);
+            return;
+        }
         adviserRepository.update(adviser);
         PopUp.showPopup("Success!","Advisor is updated successfully! :"+adviser.getId(),AlertType.INFORMATION);
     }
@@ -130,6 +140,10 @@ public class AdvisorController {
     public void delete(ActionEvent event){
         if(txtfield1.getText().isBlank()){
             PopUp.showPopup("Warning!","Id is mandatory!",AlertType.ERROR);
+            return;
+        }
+        if (adviserRepository.getAdvisorById(Integer.parseInt(txtfield1.getText())).isEmpty()){
+            PopUp.showPopup("Error!","Advisor not found! :"+txtfield1.getText(),AlertType.ERROR);
             return;
         }
          adviserRepository.deleteById(Integer.parseInt(txtfield1.getText()));

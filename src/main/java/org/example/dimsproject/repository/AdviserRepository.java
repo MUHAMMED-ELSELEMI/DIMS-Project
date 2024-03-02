@@ -23,7 +23,10 @@ public class AdviserRepository {
     // Fetch data from database.
     public Optional<Adviser> getAdvisorById(int id){
         try {
-            connection = DriverManager.getConnection(databaseConfig.getURL(), databaseConfig.getUSER(), databaseConfig.getPASSWORD());
+            connection = DriverManager.getConnection(
+                    databaseConfig.getURL(),
+                    databaseConfig.getUSER(),
+                    databaseConfig.getPASSWORD());
             statement = connection.createStatement();
             String query = "SELECT * FROM advisers WHERE id="+id;
             resultSet = statement.executeQuery(query);
@@ -45,8 +48,14 @@ public class AdviserRepository {
     //Save data to database
     public void save(Adviser adviser){
         try {
-            connection = DriverManager.getConnection(databaseConfig.getURL(), databaseConfig.getUSER(), databaseConfig.getPASSWORD());
-            String query = "INSERT INTO advisers VALUES (" + adviser.getId() + ",'" + adviser.getName() + "','" + adviser.getDepartment() + "');";
+
+            connection = DriverManager.getConnection(
+                    databaseConfig.getURL(),
+                    databaseConfig.getUSER(),
+                    databaseConfig.getPASSWORD());
+            String query = "INSERT INTO advisers " +
+                    "VALUES (" + adviser.getId() + ",'" + adviser.getName() + "','" + adviser.getDepartment() + "');";
+
             statement = connection.createStatement();
 
             //if(checkMemberID(adviser.getId())) {
@@ -69,11 +78,16 @@ public class AdviserRepository {
     //Update data of database
     public void update(Adviser adviser){
         try {
-            connection = DriverManager.getConnection(databaseConfig.getURL(), databaseConfig.getUSER(), databaseConfig.getPASSWORD());            statement = connection.createStatement();
-            String query = "UPDATE advisers SET name='"+adviser.getName()+"',department='"+adviser.getDepartment()+"' WHERE id="+adviser.getId()+";";
+            connection = DriverManager.getConnection(
+                    databaseConfig.getURL(),
+                    databaseConfig.getUSER(),
+                    databaseConfig.getPASSWORD());
+            statement = connection.createStatement();
+            String query = "UPDATE advisers " +
+                    "SET name='"+adviser.getName()+"',department='"+adviser.getDepartment()+"' WHERE id="+adviser.getId()+";";
             statement.executeUpdate(query);
-
-            //connection.close();
+            connection.close();
+          
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -83,7 +97,11 @@ public class AdviserRepository {
     //Delete data from database
     public void deleteById(int id){
         try {
-            connection = DriverManager.getConnection(databaseConfig.getURL(), databaseConfig.getUSER(), databaseConfig.getPASSWORD());            statement = connection.createStatement();
+            connection = DriverManager.getConnection(
+                    databaseConfig.getURL(),
+                    databaseConfig.getUSER(),
+                    databaseConfig.getPASSWORD());
+            statement = connection.createStatement();
             String query = "DELETE FROM advisers WHERE id="+id+";";
             statement.executeUpdate(query);
             connection.close();
