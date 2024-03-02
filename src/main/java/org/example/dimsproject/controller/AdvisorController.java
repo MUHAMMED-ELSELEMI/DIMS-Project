@@ -1,5 +1,6 @@
 package org.example.dimsproject.controller;
 
+import javafx.application.Platform;
 import javafx.stage.Window;
 import org.example.dimsproject.HelloApplication;
 import org.example.dimsproject.model.Adviser;
@@ -75,9 +76,16 @@ public class AdvisorController {
 
     @FXML
     void close(ActionEvent event) {
-        //Platform.exit();
-        Stage stage = (Stage) adv_button_save.getScene().getWindow();
-        stage.close();
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("CLOSING PROGRAM!!!");
+        alert.setHeaderText("are you sure close the program");
+        alert.setContentText("press OK to close, or CANCEL to continue program");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if(result.isPresent() && result.get() == ButtonType.OK){
+            Platform.exit();
+        }else {
+        }
     }
 
     @FXML
@@ -102,6 +110,7 @@ public class AdvisorController {
     void save(ActionEvent event) throws Exception {
         Adviser adviser = getAdviser();
         if (adviser == null) return;
+
         adviserRepository.save(adviser);
         PopUp.showPopup("Success!","Advisor is created! :"+adviser.getId(),AlertType.INFORMATION);
     }
@@ -123,6 +132,7 @@ public class AdvisorController {
          adviserRepository.deleteById(Integer.parseInt(txtfield1.getText()));
          PopUp.showPopup("Success!","Adviser is deleted successfully!: "+txtfield1.getText(),AlertType.WARNING);
     }
+
     private Adviser getAdviser() {
         Adviser adviser;
         if(txtfield1.getText().isBlank() || txtfield2.getText().isBlank() || txtfield3.getText().isBlank()){
