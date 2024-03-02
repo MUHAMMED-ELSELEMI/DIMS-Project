@@ -2,6 +2,8 @@ package org.example.dimsproject.controller;
 
 import javafx.application.Platform;
 import javafx.stage.Window;
+import javafx.util.converter.BigDecimalStringConverter;
+import javafx.util.converter.NumberStringConverter;
 import org.example.dimsproject.HelloApplication;
 import org.example.dimsproject.model.Adviser;
 import org.example.dimsproject.repository.*;
@@ -13,6 +15,7 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Optional;
 
 import javafx.scene.control.Alert;
@@ -145,5 +148,24 @@ public class AdvisorController {
         adviser.setDepartment(txtfield3.getText());
         return adviser;
     }
+
+    @FXML
+    public void initialize() {
+        TextFormatter<BigDecimal> formatter = new TextFormatter<>(new BigDecimalStringConverter());
+        txtfield1.setTextFormatter(formatter);
+
+        formatter.valueProperty().addListener((obs, oldValue, newValue) -> {
+            if (newValue == null) {
+                txtfield1.setText("");
+            }
+        });
+
+        txtfield1.textProperty().addListener((obs, oldValue, newValue) -> {
+                if (!newValue.matches("\\d*")) {
+                txtfield1.setText(newValue.replaceAll("[^\\d]", ""));
+            }
+        });
+    }
+
 
 }
