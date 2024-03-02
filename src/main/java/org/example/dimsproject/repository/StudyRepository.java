@@ -28,8 +28,9 @@ public class StudyRepository {
         String query = "SELECT * FROM studies WHERE id =" + studyId +";";
         statement =connection.createStatement();
         resultSet = statement.executeQuery(query);
-        Study study = new Study();
+        Study study = null;
         while(resultSet.next()){
+            study = new Study();
             study.setId(resultSet.getInt(1));
             study.setTitle(resultSet.getString(2));
             study.setDescription(resultSet.getString(3));
