@@ -1,32 +1,26 @@
 package org.example.dimsproject.controller;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.stage.Popup;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import javafx.util.converter.NumberStringConverter;
+import javafx.util.converter.BigDecimalStringConverter;
 import org.example.dimsproject.HelloApplication;
 import org.example.dimsproject.model.Study;
 import org.example.dimsproject.repository.StudyRepository;
 import org.example.dimsproject.utils.PopUp;
-import javafx.scene.control.TextFormatter;
-import javafx.util.converter.BigDecimalStringConverter;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.util.Optional;
 
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import org.example.dimsproject.utils.PopUp;
-
 public class StudyController {
+
 
     @FXML
     private Button savebtn;
@@ -42,13 +36,11 @@ public class StudyController {
     public StudyController(){
          this.studyRepository = new StudyRepository();
     }
-
     @FXML
     void close(ActionEvent event) {
         Stage stage = (Stage) savebtn.getScene().getWindow();
         stage.close();
         }
-
     @FXML
     void clear(ActionEvent event){
         T1.clear();
@@ -57,10 +49,13 @@ public class StudyController {
 
     }
     @FXML
-    public void delete(ActionEvent event)
-    {
+    public void delete(ActionEvent event) throws SQLException {
         if (T1.getText().isBlank()){
             PopUp.showPopup("Warning!","Id is mandatory!", Alert.AlertType.ERROR);
+            return;
+        }
+        if (studyRepository.getStudyById(Integer.parseInt(T1.getText())) == null){
+            PopUp.showPopup("Error!","Study not found! :"+T1.getText(),AlertType.ERROR);
             return;
         }
         studyRepository.deleteById(Integer.parseInt(T1.getText()));
@@ -138,6 +133,10 @@ public class StudyController {
     {
         Study study = getStudy();
         if (study == null) return;
+        if(studyRepository.getStudyById(study.getId()) != null){
+            PopUp.showPopup("ID!", "ID already exists in the database.", Alert.AlertType.ERROR);
+            return;
+        }
         studyRepository.saveNewStudy(study);
         PopUp.showPopup("Success!","Study is created! :"+study.getId(), Alert.AlertType.INFORMATION);
     }
@@ -146,6 +145,10 @@ public class StudyController {
     {
         Study study = getStudy();
         if (study == null) return;
+        if (studyRepository.getStudyById(study.getId())==null){
+            PopUp.showPopup("Error!","Study not found! :"+study.getId(),AlertType.ERROR);
+            return;
+        }
         studyRepository.updateStudy(study);
         PopUp.showPopup("Success!","Study is updated successfully! :"+study.getId(), Alert.AlertType.INFORMATION);
 
@@ -160,13 +163,11 @@ public class StudyController {
                 T1.setText("");
             }
         });
+
         T1.textProperty().addListener((obs, oldValue, newValue) -> {
             if (!newValue.matches("\\d*")) {
                 T1.setText(newValue.replaceAll("[^\\d]", ""));
             }
         });
     }
-
-
-
     }

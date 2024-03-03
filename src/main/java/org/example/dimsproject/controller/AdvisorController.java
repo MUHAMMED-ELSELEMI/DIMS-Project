@@ -1,29 +1,23 @@
 package org.example.dimsproject.controller;
 
 import javafx.application.Platform;
-import javafx.stage.Window;
-import javafx.util.converter.BigDecimalStringConverter;
-import javafx.util.converter.NumberStringConverter;
-import org.example.dimsproject.HelloApplication;
-import org.example.dimsproject.model.Adviser;
-import org.example.dimsproject.repository.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
+import javafx.stage.Window;
+import javafx.util.converter.BigDecimalStringConverter;
+import org.example.dimsproject.HelloApplication;
+import org.example.dimsproject.model.Adviser;
+import org.example.dimsproject.repository.AdviserRepository;
+import org.example.dimsproject.utils.PopUp;
 
 import java.io.IOException;
-
-import java.sql.SQLException;
 import java.math.BigDecimal;
-
 import java.util.Optional;
-
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import org.example.dimsproject.utils.PopUp;
 
 public class AdvisorController {
 
@@ -116,9 +110,14 @@ public class AdvisorController {
     }
 
     @FXML
-    void save(ActionEvent event) throws Exception {
+    void save(ActionEvent event) {
         Adviser adviser = getAdviser();
         if (adviser == null) return;
+
+        if(adviserRepository.getAdvisorById(adviser.getId()).isPresent()){
+            PopUp.showPopup("ID!", "ID already exists in the database.", Alert.AlertType.ERROR);
+            return;
+        }
 
         adviserRepository.save(adviser);
         PopUp.showPopup("Success!","Advisor is created! :"+adviser.getId(),AlertType.INFORMATION);

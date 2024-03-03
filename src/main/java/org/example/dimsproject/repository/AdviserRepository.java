@@ -1,9 +1,7 @@
 package org.example.dimsproject.repository;
 
-import javafx.scene.control.Alert;
 import org.example.dimsproject.model.Adviser;
 import org.example.dimsproject.utils.DatabaseConfig;
-import org.example.dimsproject.utils.PopUp;
 
 import java.sql.*;
 import java.util.Optional;
@@ -56,19 +54,14 @@ public class AdviserRepository {
             String query = "INSERT INTO advisers " +
                     "VALUES (" + adviser.getId() + ",'" + adviser.getName() + "','" + adviser.getDepartment() + "');";
 
-            statement = connection.createStatement();
-
             //if(checkMemberID(adviser.getId())) {
             //    PopUp.showPopup("ID!", "ID already exists in the database.", Alert.AlertType.ERROR);
             //    return;
             //}
 
-            if(getAdvisorById(adviser.getId()).isPresent()){
-                PopUp.showPopup("ID!", "ID already exists in the database.", Alert.AlertType.ERROR);
-                throw new SQLException("Advisor has already been exist.");
-            }
-            statement.executeUpdate(query);
 
+            statement = connection.createStatement();
+            statement.execute(query);
             connection.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
