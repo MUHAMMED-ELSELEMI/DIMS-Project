@@ -1,23 +1,23 @@
 package org.example.dimsproject.controller;
 
-import javafx.stage.Window;
-import org.example.dimsproject.HelloApplication;
-import org.example.dimsproject.model.Adviser;
-import org.example.dimsproject.repository.*;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
+import javafx.stage.Window;
+import javafx.util.converter.BigDecimalStringConverter;
+import org.example.dimsproject.HelloApplication;
+import org.example.dimsproject.model.Adviser;
+import org.example.dimsproject.repository.AdviserRepository;
+import org.example.dimsproject.utils.PopUp;
 
 import java.io.IOException;
-import java.sql.SQLException;
+import java.math.BigDecimal;
 import java.util.Optional;
-
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import org.example.dimsproject.utils.PopUp;
 
 public class AdvisorController {
 
@@ -76,8 +76,15 @@ public class AdvisorController {
 
     @FXML
     void close(ActionEvent event) {
-        Stage stage = (Stage) adv_button_save.getScene().getWindow();
-        stage.close();
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("CLOSING PROGRAM!!!");
+        alert.setHeaderText("are you sure close the program");
+        alert.setContentText("press OK to close, or CANCEL to continue program");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if(result.isPresent() && result.get() == ButtonType.OK){
+            Platform.exit();
+        }
     }
 
     @FXML
@@ -103,9 +110,15 @@ public class AdvisorController {
     }
 
     @FXML
-    void save(ActionEvent event) throws Exception {
+    void save(ActionEvent event) {
         Adviser adviser = getAdviser();
         if (adviser == null) return;
+
+        if(adviserRepository.getAdvisorById(adviser.getId()).isPresent()){
+            PopUp.showPopup("ID!", "ID already exists in the database.", Alert.AlertType.ERROR);
+            return;
+        }
+
         adviserRepository.save(adviser);
         PopUp.showPopup("Success!","Advisor is created! :"+adviser.getId(),AlertType.INFORMATION);
     }
@@ -135,6 +148,7 @@ public class AdvisorController {
          adviserRepository.deleteById(Integer.parseInt(txtfield1.getText()));
          PopUp.showPopup("Success!","Adviser is deleted successfully!: "+txtfield1.getText(),AlertType.WARNING);
     }
+
     private Adviser getAdviser() {
         Adviser adviser;
         if(txtfield1.getText().isBlank() || txtfield2.getText().isBlank() || txtfield3.getText().isBlank()){
@@ -147,5 +161,24 @@ public class AdvisorController {
         adviser.setDepartment(txtfield3.getText());
         return adviser;
     }
+
+    @FXML
+    public void initialize() {
+        TextFormatter<BigDecimal> formatter = new TextFormatter<>(new BigDecimalStringConverter());
+        txtfield1.setTextFormatter(formatter);
+
+        formatter.valueProperty().addListener((obs, oldValue, newValue) -> {
+            if (newValue == null) {
+                txtfield1.setText("");
+            }
+        });
+
+        txtfield1.textProperty().addListener((obs, oldValue, newValue) -> {
+                if (!newValue.matches("\\d*")) {
+                txtfield1.setText(newValue.replaceAll("[^\\d]", ""));
+            }
+        });
+    }
+
 
 }

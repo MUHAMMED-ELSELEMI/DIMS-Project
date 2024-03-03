@@ -1,25 +1,23 @@
 package org.example.dimsproject.controller;
 
-import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.stage.Popup;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import javafx.util.converter.BigDecimalStringConverter;
 import org.example.dimsproject.HelloApplication;
 import org.example.dimsproject.model.Study;
 import org.example.dimsproject.repository.StudyRepository;
 import org.example.dimsproject.utils.PopUp;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.util.Optional;
-
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import org.example.dimsproject.utils.PopUp;
 
 public class StudyController {
 
@@ -135,6 +133,10 @@ public class StudyController {
     {
         Study study = getStudy();
         if (study == null) return;
+        if(studyRepository.getStudyById(study.getId()) != null){
+            PopUp.showPopup("ID!", "ID already exists in the database.", Alert.AlertType.ERROR);
+            return;
+        }
         studyRepository.saveNewStudy(study);
         PopUp.showPopup("Success!","Study is created! :"+study.getId(), Alert.AlertType.INFORMATION);
     }
@@ -151,5 +153,21 @@ public class StudyController {
         PopUp.showPopup("Success!","Study is updated successfully! :"+study.getId(), Alert.AlertType.INFORMATION);
 
     }
+    @FXML
+    public void initialize() {
+        TextFormatter<BigDecimal> formatter = new TextFormatter<>(new BigDecimalStringConverter());
+        T1.setTextFormatter(formatter);
 
+        formatter.valueProperty().addListener((obs, oldValue, newValue) -> {
+            if (newValue == null) {
+                T1.setText("");
+            }
+        });
+
+        T1.textProperty().addListener((obs, oldValue, newValue) -> {
+            if (!newValue.matches("\\d*")) {
+                T1.setText(newValue.replaceAll("[^\\d]", ""));
+            }
+        });
+    }
     }
