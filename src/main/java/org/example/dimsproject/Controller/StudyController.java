@@ -14,6 +14,7 @@ import org.example.dimsproject.repository.StudyRepository;
 import org.example.dimsproject.utils.PopUp;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Optional;
 
 import javafx.scene.control.Alert;
@@ -50,10 +51,13 @@ public class StudyController {
 
     }
     @FXML
-    public void delete(ActionEvent event)
-    {
+    public void delete(ActionEvent event) throws SQLException {
         if (T1.getText().isBlank()){
             PopUp.showPopup("Warning!","Id is mandatory!", Alert.AlertType.ERROR);
+            return;
+        }
+        if (studyRepository.getStudyById(Integer.parseInt(T1.getText())) == null){
+            PopUp.showPopup("Error!","Study not found! :"+T1.getText(),AlertType.ERROR);
             return;
         }
         studyRepository.deleteById(Integer.parseInt(T1.getText()));
@@ -139,6 +143,10 @@ public class StudyController {
     {
         Study study = getStudy();
         if (study == null) return;
+        if (studyRepository.getStudyById(study.getId())==null){
+            PopUp.showPopup("Error!","Study not found! :"+study.getId(),AlertType.ERROR);
+            return;
+        }
         studyRepository.updateStudy(study);
         PopUp.showPopup("Success!","Study is updated successfully! :"+study.getId(), Alert.AlertType.INFORMATION);
 
